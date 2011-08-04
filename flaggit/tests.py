@@ -17,7 +17,7 @@ class FlaggingTest(TestCase):
         self.hendrix.save()
         self.ctype = ContentType.objects.get_for_model(self.hendrix)
 
-        self.url = reverse('flag')
+        self.url = reverse('flaggit')
 
     def test_anonymous_flagging(self):
         response = self.client.post(self.url, {
