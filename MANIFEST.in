@@ -1,0 +1,4 @@
+include README.*
+include LICENCE
+
+recursive-include flaggit/templates *.html
