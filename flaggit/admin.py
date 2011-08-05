@@ -35,8 +35,7 @@ class FlagAdmin(admin.ModelAdmin):
         for obj in queryset:
             obj.status = CONTENT_REJECTED
             obj.save()
-    reject.short_description = "Reject content on selected flags. (Delete content)"
-    
+    reject.short_description = "Reject content on selected flags. (Delete content)"    
     
     def get_actions(self, request):
         actions = super(FlagAdmin, self).get_actions(request)

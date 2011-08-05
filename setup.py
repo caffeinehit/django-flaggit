@@ -13,6 +13,6 @@ setup(
     url='https://github.com/caffeinehit/django-flaggit',
     version=flaggit.__version__,
     include_package_data=True,
-    package_data={'flaggit': 'templates/flaggit/*html'},
+    package_data={'flaggit': ['templates/flaggit/*.html']},
     zip_safe=False,
 )
