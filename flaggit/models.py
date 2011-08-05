@@ -30,15 +30,10 @@ class Flag(models.Model):
     reviewer = models.ForeignKey(User, blank=True, null=True)
     
     comment = models.TextField(blank=True, null=True)
-    
-    
-    
+
     def __unicode__(self):
         return u'%s: %s' % (self.get_status_display(), self.content_object)
 
-    @property
-    def num_flags(self):
-        return self.flag_set.count()
 
 class FlagInstance(models.Model):
     flag = models.ForeignKey(Flag, related_name='flags')

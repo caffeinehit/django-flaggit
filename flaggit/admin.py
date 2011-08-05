@@ -1,10 +1,47 @@
 from django.contrib import admin
-from flaggit.models import Flag, FlagInstance
+from flaggit.models import Flag, FlagInstance, CONTENT_APPROVED, \
+    CONTENT_REJECTED
+from datetime import datetime
 
 class FlagAdmin(admin.ModelAdmin):
-    list_filters = ('status',)
-    list_display = ('status', 'num_flags', 'content_object', 'created',
+    list_filter = ('status',)
+    list_display = ('status', 'link', 'created',
         'reviewer', 'reviewed', 'num_flags')
+    
+    actions = ['approve', 'reject']
+    actions_on_bottom = True
+    
+    def num_flags(self, obj):
+        return obj.flags.all().count()
+    
+    def link(self, obj):
+        try:
+            return u'<a href="%s">%s</a>' % (
+                obj.content_object.get_absolute_url(), obj.content_object)
+        except TypeError:
+            return 
+    
+    link.allow_tags = True
+    
+    def approve(self, request, queryset):
+        for obj in queryset:
+            obj.status = CONTENT_APPROVED
+            obj.reviewer = request.user
+            obj.reviewed = datetime.now()
+            obj.save()
+    approve.short_description = "Approve content on selected flags. (Save content)"
+    
+    def reject(self, request, queryset):
+        for obj in queryset:
+            obj.status = CONTENT_REJECTED
+            obj.save()
+    reject.short_description = "Reject content on selected flags. (Delete content)"
+    
+    
+    def get_actions(self, request):
+        actions = super(FlagAdmin, self).get_actions(request)
+        del actions['delete_selected']
+        return actions
 
 admin.site.register(Flag, FlagAdmin)
 admin.site.register(FlagInstance)
