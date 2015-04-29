@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.http import HttpResponseRedirect, HttpResponseBadRequest
 from django.views.generic.base import View
 from flaggit import utils
@@ -18,6 +19,7 @@ class FlagView(View):
             form.cleaned_data['comment'])
         
         if 'next' in request.GET:
+            messages.success(request, 'Flagged successfully.')
             return HttpResponseRedirect(request.GET.get('next'))
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
         
