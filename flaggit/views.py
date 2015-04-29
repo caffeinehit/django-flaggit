@@ -17,9 +17,9 @@ class FlagView(View):
         
         utils.flag(form.cleaned_data['object'], user, request.META['REMOTE_ADDR'],
             form.cleaned_data['comment'])
-        
+
+        messages.success(request, 'Flagged successfully.')
         if 'next' in request.GET:
-            messages.success(request, 'Flagged successfully.')
             return HttpResponseRedirect(request.GET.get('next'))
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
         
