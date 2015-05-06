@@ -18,17 +18,24 @@ FLAG_CHOICES = (
     (CONTENT_APPROVED, 'Approved'),
 )
 
+FLAG_TYPES = (
+    (1, 'Inappropriate'),
+    (2, 'Move To Jobs'),
+    (3, 'Move To Events'),
+    (4, 'Move To Promotions'),
+)
+
 class Flag(models.Model):
     object_id = models.PositiveIntegerField()
     content_type = models.ForeignKey(ContentType)
     content_object = generic.GenericForeignKey("content_type", "object_id")
-    
+
     _pre_save_status = None
     status = models.PositiveIntegerField(choices=FLAG_CHOICES, default=FLAGGED)
     created = models.DateTimeField(auto_now_add=True)
     reviewed = models.DateTimeField(blank=True, null=True)
     reviewer = models.ForeignKey(User, blank=True, null=True)
-    
+
     comment = models.TextField(blank=True, null=True)
 
     def __unicode__(self):
@@ -40,9 +47,9 @@ class FlagInstance(models.Model):
     user = models.ForeignKey(User, blank=True, null=True)
     ip = models.IPAddressField(blank=True, null=True)
     datetime = models.DateTimeField(auto_now_add=True)
-    
+    flag_type = models.PositiveIntegerField(choices=FLAG_TYPES, default=1)
     comment = models.TextField(blank=True, null=True)
-    
+
     def __unicode__(self):
         return u'%s: %s' % (self.user, self.flag.content_object)
 
@@ -67,7 +74,7 @@ def flag_handler(sender, instance, created=False, **kwargs):
     elif instance.status == CONTENT_APPROVED:
         approved.send(instance.content_object, flag=instance)
 
-    
+
 def flag_instance_handler(sender, instance, created=False, **kwargs):
     if not created:
         return
