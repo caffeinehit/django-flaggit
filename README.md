@@ -19,6 +19,7 @@ Be sure to install this fork from github
     )
 ```
 * run migrations
+
     $ ./manage.py migrate
 
 * Include `flaggit.urls` into your URLs if you plan on using the view and template
@@ -96,7 +97,7 @@ Here's a template you can copy paste:
 * `{% flag_form object %}`:  
   Renders a form to flag `object`-
 
-* `{% flag_form object "your/custom/template.html" %}:  
+* `{% flag_form object "your/custom/template.html" %}`:  
   Renders the form with a custom template.
 
 ------------- 
