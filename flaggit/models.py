@@ -39,7 +39,7 @@ class Flag(models.Model):
 
     comment = models.TextField(blank=True, null=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s: %s' % (self.get_status_display(), self.content_object)
 
 
@@ -51,7 +51,7 @@ class FlagInstance(models.Model):
     flag_type = models.PositiveIntegerField(choices=FLAG_TYPES, default=1)
     comment = models.TextField(blank=True, null=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s: %s' % (self.user, self.flag.content_object)
 
 
