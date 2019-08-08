@@ -4,6 +4,7 @@ from flaggit.models import Flag, FlagInstance, CONTENT_APPROVED, \
 from datetime import datetime
 
 class FlagAdmin(admin.ModelAdmin):
+    readonly_fields = ('related_object', 'num_flags')
     list_filter = ('status',)
     list_display = ('status', 'created',
         'reviewer', 'reviewed', 'num_flags')
@@ -32,6 +33,9 @@ class FlagAdmin(admin.ModelAdmin):
         actions = super(FlagAdmin, self).get_actions(request)
         del actions['delete_selected']
         return actions
+    
+    def related_object(self, obj):                                                                                     
+        return f"{obj.content_object}"   
 
 admin.site.register(Flag, FlagAdmin)
 admin.site.register(FlagInstance)
