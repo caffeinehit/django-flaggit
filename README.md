@@ -3,12 +3,24 @@
 django-flaggit enables content flagging.
 
 ## Installation
+Be sure to install this fork from github
 
-	pip install django-flaggit
+    $ pipenv install -e git+https://github.com/morenoh149/django-flaggit.git#egg=django-flaggit
 	
 ## Usage:
 
 * Add `flaggit` to your `INSTALLED_APPS`
+```
+    # settings.py
+    ...
+    INSTALLED_APPS = (
+        ...
+	'flaggit',
+    )
+```
+* run migrations
+    $ ./manage.py migrate
+
 * Include `flaggit.urls` into your URLs if you plan on using the view and template
   tag:
 
