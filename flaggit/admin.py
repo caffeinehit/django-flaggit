@@ -5,7 +5,7 @@ from datetime import datetime
 
 class FlagAdmin(admin.ModelAdmin):
     list_filter = ('status',)
-    list_display = ('status', 'link', 'created',
+    list_display = ('status', 'created',
         'reviewer', 'reviewed', 'num_flags')
     
     actions = ['approve', 'reject']
@@ -13,15 +13,6 @@ class FlagAdmin(admin.ModelAdmin):
     
     def num_flags(self, obj):
         return obj.flags.all().count()
-    
-    def link(self, obj):
-        try:
-            return u'<a href="%s">%s</a>' % (
-                obj.content_object.get_absolute_url(), obj.content_object)
-        except TypeError:
-            return 
-    
-    link.allow_tags = True
     
     def approve(self, request, queryset):
         for obj in queryset:
