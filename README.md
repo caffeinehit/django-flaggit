@@ -68,8 +68,9 @@ Follow above steps and run
 
 ### Models
 
-* `flaggit.models.Flag`
-* `flaggit.models.FlagInstance`  
+* `flaggit.models.Flag` - object belongs_to a Flag. Tracks the state of review in the flagging process and what moderator reviewed the item.
+* `flaggit.models.FlagInstance` - FlagInstance has_a Flag. Tracks a particular user flagging a record. If a record is flagged by many users Flag.num_flags will increment.
+
 
 ### Utils
 
