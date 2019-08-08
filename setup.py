@@ -6,7 +6,7 @@ import flaggit
 setup(
     name='django-flaggit',
     description='Generic content flagging for Django',
-    long_description=open('README.rst').read(),
+    long_description=open('README.md').read(),
     packages=['flaggit', 'flaggit.templatetags'],
     author='Alen Mujezinovic',
     author_email='alen@caffeinehit.com',
