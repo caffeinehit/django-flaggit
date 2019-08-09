@@ -43,6 +43,7 @@ then define your endpoint
 ```
 # views.py
 from .serializers import FlagInstanceSerializer
+import flaggit.utils
 
 SomeViewSet(viewsets.ModelViewSet):
 ...
