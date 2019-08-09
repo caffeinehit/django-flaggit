@@ -52,8 +52,7 @@ SomeViewSet(viewsets.ModelViewSet):
     def flag(self, request, pk=None):
         some_model = self.get_object()
         flag_instance = flaggit.utils.flag(some_model, user=request.user, ip=None, comment=None)
-        serializer = FlagInstanceSerializer(data=flag_instance)
-        serializer.is_valid()
+        serializer = FlagInstanceSerializer(instance=flag_instance)
         return Response(data=serializer.data)
 ```
 After you POST to `/some-model/:id/flag` you will see new records in the admin panel.
