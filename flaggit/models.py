@@ -52,7 +52,7 @@ class FlagInstance(models.Model):
     comment = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return u'%s: %s' % (self.user, self.flag.content_object)
+        return u'%s: %s' % (self.flag.content_type, self.flag.content_object)
 
 
 def post_init_handler(sender, instance, **kwargs):
