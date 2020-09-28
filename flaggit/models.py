@@ -1,10 +1,9 @@
-from django.contrib.auth.models import User
 from django.contrib.contenttypes import fields
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models.signals import post_save, post_init
 from .signals import flagged, review, rejected, approved
-
+from django.conf import settings
 
 FLAGGED = 1
 REVIEW = 2
@@ -25,6 +24,7 @@ FLAG_TYPES = (
     (4, 'Move To Promotions'),
 )
 
+User = settings.AUTH_USER_MODEL
 
 class Flag(models.Model):
     object_id = models.PositiveIntegerField()
