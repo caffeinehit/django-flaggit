@@ -1,4 +1,5 @@
 from django import template
+from django.template.loader import render_to_string
 from django.contrib.contenttypes.models import ContentType
 
 register = template.Library()
@@ -28,7 +29,7 @@ class FlagFormNode(template.Node):
     def render(self, context):
         obj = self.obj.resolve(context)
         content_type = ContentType.objects.get_for_model(obj)
-        return template.loader.render_to_string(self.tpl, {
+        return render_to_string(self.tpl, {
             'object': obj,
             'content_type': content_type,
-        }, context_instance=context)
+        })

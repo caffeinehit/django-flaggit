@@ -19,6 +19,15 @@ def flag(obj, user=None, ip=None, comment=None):
         )
     flag_instance.ip = ip
     flag_instance.comment = comment
+
+    #
+    # In future flag_type will be based upon the comment
+    # flag is by default 1 which is Inappropriate
+    # move to other places can be handled with keyword in comments
+    # as comments will be fixed options for user
+    #
+    # flag_instance.flag_type = flag_type
+
     flag_instance.save()
     
     return flag_instance

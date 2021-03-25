@@ -3,18 +3,59 @@
 django-flaggit enables content flagging.
 
 ## Installation
+Be sure to install this fork from github
 
-	pip install django-flaggit
+    $ pipenv install -e git+https://github.com/morenoh149/django-flaggit.git#egg=django-flaggit
 	
 ## Usage:
 
 * Add `flaggit` to your `INSTALLED_APPS`
-* Include `flaggit.urls` into your URLs if you plan on using the view and template
+```
+    # settings.py
+    ...
+    INSTALLED_APPS = (
+        ...
+	'flaggit',
+    )
+```
+* run migrations
+```
+$ ./manage.py migrate
+```
+* Include `flaggit.urls` into your URLs if you plan on using the template
   tag:
 
 		urlpatterns = patterns('',
 			url('^', include('flaggit.urls')),
 		)
+### rest framework
+In DRF you can define a custom endpoint and pass the instance to flaggit to flag. First define a serializer
+```
+# serializers.py
+from flaggit.models import FlagInstance
+
+class FlagInstanceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FlagInstance
+        fields = '__all__'
+```
+then define your endpoint
+```
+# views.py
+from .serializers import FlagInstanceSerializer
+import flaggit.utils
+
+SomeViewSet(viewsets.ModelViewSet):
+...
+
+    @action(detail=True, methods=['post'])
+    def flag(self, request, pk=None):
+        some_model = self.get_object()
+        flag_instance = flaggit.utils.flag(some_model, user=request.user, ip=None, comment=None)
+        serializer = FlagInstanceSerializer(instance=flag_instance)
+        return Response(data=serializer.data)
+```
+After you POST to `/some-model/:id/flag` you will see new records in the admin panel.
 
 ## Test
 
@@ -26,9 +67,10 @@ Follow above steps and run
 ## API
 
 ### Models
+![data model](./data-model.png)
+* `flaggit.models.Flag` - object belongs_to a Flag. Tracks the state of review in the flagging process and what moderator reviewed the item.
+* `flaggit.models.FlagInstance` - FlagInstance has_a Flag. Tracks a particular user flagging a record. If a record is flagged by many users Flag.num_flags will increment.
 
-* `flaggit.models.Flag`
-* `flaggit.models.FlagInstance`  
 
 ### Utils
 
@@ -84,7 +126,7 @@ Here's a template you can copy paste:
 * `{% flag_form object %}`:  
   Renders a form to flag `object`-
 
-* `{% flag_form object "your/custom/template.html" %}:  
+* `{% flag_form object "your/custom/template.html" %}`:  
   Renders the form with a custom template.
 
 ------------- 

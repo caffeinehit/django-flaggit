@@ -1,7 +1,6 @@
-from django import template
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.test import TestCase
 from flaggit import utils
 from flaggit.models import Flag, FlagInstance, REVIEW, CONTENT_APPROVED, \
@@ -112,16 +111,6 @@ class FlaggingTest(TestCase):
         })
         
         self.assertEqual(400, response.status_code)
-
-    def test_template_tag(self):
-        ctx = template.Context({'obj':self.lennon})
-        tpl = template.Template("""{% load flaggit_tags %}{% flag_form obj %}""")
-
-        self.assertTrue(isinstance(tpl.render(ctx), unicode))
-        
-        tpl = template.Template("""{% load flaggit_tags %}{% flag_form obj "flaggit/form.html" %}""")
-        
-        self.assertTrue(isinstance(tpl.render(ctx), unicode))
 
 
     def test_signals(self):

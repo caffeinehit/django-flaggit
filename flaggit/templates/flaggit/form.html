@@ -1,4 +1,4 @@
-<form method="post" action="{% url flaggit %}">
+<form method="post" action="{% url 'flaggit' %}">
 	{% csrf_token %}
 	<input type="hidden" name="content_type" value="{{ content_type.id }}" />
 	<input type="hidden" name="object_id" value="{{ object.id }}" />
