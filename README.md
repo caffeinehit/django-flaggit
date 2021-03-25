@@ -3,9 +3,8 @@
 django-flaggit enables content flagging.
 
 ## Installation
-Be sure to install this fork from github
 
-    $ pipenv install -e git+https://github.com/morenoh149/django-flaggit.git#egg=django-flaggit
+    $ pip install django-flaggit
 	
 ## Usage:
 
